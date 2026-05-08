@@ -26,7 +26,7 @@ public class DataLoader {
             PredictionRepository predictionRepo) {
         return args -> {
             // Check if data already exists to avoid redundant deletions
-            if (teamRepo.count() >= 50) {
+            if (teamRepo.count() > 0) {
                 System.out.println("Database already contains " + teamRepo.count() + " teams. Skipping seed.");
                 return;
             }
