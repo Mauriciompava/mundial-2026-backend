@@ -4,6 +4,7 @@ import com.mundial2026.polla.model.Team;
 import com.mundial2026.polla.model.User;
 import com.mundial2026.polla.repository.TeamRepository;
 import com.mundial2026.polla.repository.UserRepository;
+import com.mundial2026.polla.service.PollaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,9 @@ public class UserController {
     
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private PollaService pollaService;
 
     @GetMapping("/users")
     public List<User> getUsers() {
@@ -63,6 +67,6 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+        pollaService.deleteUser(id);
     }
 }

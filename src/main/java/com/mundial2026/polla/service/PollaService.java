@@ -99,4 +99,10 @@ public class PollaService {
 
         return 0;
     }
+    
+    @Transactional
+    public void deleteUser(Long userId) {
+        predictionRepository.deleteByUserId(userId);
+        userRepository.deleteById(userId);
+    }
 }

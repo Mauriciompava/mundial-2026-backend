@@ -10,4 +10,8 @@ import java.util.List;
 public interface PredictionRepository extends JpaRepository<Prediction, Long> {
     List<Prediction> findByUser(User user);
     List<Prediction> findByMatchId(Long matchId);
+    
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.data.jpa.repository.Query("DELETE FROM Prediction p WHERE p.user.id = :userId")
+    void deleteByUserId(Long userId);
 }
