@@ -45,8 +45,8 @@ public class PollaService {
         matchRepository.save(match);
 
         // Fetch scoring rules
-        int pExact = getSettingAsInt("pointsExact", 3);
-        int pWinner = getSettingAsInt("pointsWinner", 2);
+        int pExact = getSettingAsInt("pointsExact", 5);
+        int pWinner = getSettingAsInt("pointsWinner", 3);
         int pDraw = getSettingAsInt("pointsDraw", 1);
 
         // Recalculate points for all predictions for this match

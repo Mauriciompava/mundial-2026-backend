@@ -104,8 +104,8 @@ public class DatabaseSeederController {
                 "('maintenanceMode','false')," +
                 "('pointsChampion','100')," +
                 "('pointsDraw','1')," +
-                "('pointsExact','3')," +
-                "('pointsWinner','2')," +
+                "('pointsExact','5')," +
+                "('pointsWinner','3')," +
                 "('registrationOpen','true')");
 
             return "✅ ¡Mundial 2026 inicializado! 48 equipos + 24 partidos + reglas cargadas.";
