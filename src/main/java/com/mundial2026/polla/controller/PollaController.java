@@ -86,4 +86,9 @@ public class PollaController {
     public void updateResult(@PathVariable Long id, @RequestParam Integer homeScore, @RequestParam Integer awayScore) {
         pollaService.updateMatchResult(id, homeScore, awayScore);
     }
+
+    @PostMapping("/matches/{id}/reset")
+    public Match resetMatch(@PathVariable Long id) {
+        return pollaService.resetMatch(id);
+    }
 }

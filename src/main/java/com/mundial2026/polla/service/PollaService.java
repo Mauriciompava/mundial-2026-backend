@@ -64,6 +64,33 @@ public class PollaService {
         }
     }
 
+    @Transactional
+    public Match resetMatch(Long matchId) {
+        Match match = matchRepository.findById(matchId).orElseThrow();
+        
+        // Find all predictions and REVERT points
+        List<Prediction> predictions = predictionRepository.findByMatchId(matchId);
+        for (Prediction p : predictions) {
+            int pointsToSubtract = p.getPointsWon() != null ? p.getPointsWon() : 0;
+            
+            // Update user total points
+            User user = p.getUser();
+            int currentPoints = user.getTotalPoints() != null ? user.getTotalPoints() : 0;
+            user.setTotalPoints(Math.max(0, currentPoints - pointsToSubtract));
+            userRepository.save(user);
+
+            // Reset prediction points
+            p.setPointsWon(0);
+            predictionRepository.save(p);
+        }
+
+        // Reset match status and scores
+        match.setHomeScore(null);
+        match.setAwayScore(null);
+        match.setStatus(Match.MatchStatus.SCHEDULED);
+        return matchRepository.save(match);
+    }
+
     private int getSettingAsInt(String key, int defaultValue) {
         return settingRepository.findById(key)
                 .map(s -> Integer.parseInt(s.getSettingValue()))
