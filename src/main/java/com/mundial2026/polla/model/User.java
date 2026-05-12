@@ -25,8 +25,14 @@ public class User {
     
     private Integer totalPoints = 0;
     private Double entryFee = 20000.0;
+    private boolean paid = false;
+    @Column(columnDefinition = "LONGTEXT")
+    private String paymentReceipt; // Will store base64 image
 
     @ManyToOne
     @JoinColumn(name = "champion_team_id")
     private Team championTeam;
+
+    public User(Object o, String mateo, String mail, String number, int i, double v, Team colombia) {
+    }
 }

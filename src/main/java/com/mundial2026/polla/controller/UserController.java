@@ -65,6 +65,20 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @PostMapping("/users/{userId}/upload-receipt")
+    public User uploadReceipt(@PathVariable Long userId, @RequestBody String receiptBase64) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setPaymentReceipt(receiptBase64);
+        return userRepository.save(user);
+    }
+
+    @PostMapping("/users/{userId}/toggle-payment")
+    public User togglePayment(@PathVariable Long userId, @RequestParam boolean status) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setPaid(status);
+        return userRepository.save(user);
+    }
+
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id) {
         pollaService.deleteUser(id);
