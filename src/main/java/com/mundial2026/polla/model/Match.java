@@ -31,6 +31,8 @@ public class Match {
     private Integer homeScore;
     private Integer awayScore;
     
+    private String stage; // e.g., "Group Stage", "Round of 16", etc.
+    
     @Enumerated(EnumType.STRING)
     private MatchStatus status;
 

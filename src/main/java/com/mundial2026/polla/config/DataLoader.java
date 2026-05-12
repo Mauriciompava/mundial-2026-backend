@@ -129,9 +129,9 @@ public class DataLoader {
                 if (groupTeams.size() >= 4) {
                     // Jornada 1 del Grupo
                     matchRepo.save(new Match(null, groupTeams.get(0), groupTeams.get(1), 
-                            start.plusDays(i), null, null, Match.MatchStatus.SCHEDULED));
+                            start.plusDays(i), null, null, "Grupo " + group, Match.MatchStatus.SCHEDULED));
                     matchRepo.save(new Match(null, groupTeams.get(2), groupTeams.get(3), 
-                            start.plusDays(i).plusHours(4), null, null, Match.MatchStatus.SCHEDULED));
+                            start.plusDays(i).plusHours(4), null, null, "Grupo " + group, Match.MatchStatus.SCHEDULED));
                 }
             }
 
