@@ -66,9 +66,18 @@ public class UserController {
     }
 
     @PostMapping("/users/{userId}/upload-receipt")
-    public User uploadReceipt(@PathVariable Long userId, @RequestBody String receiptBase64) {
+    public User uploadReceipt(@PathVariable Long userId, @RequestBody(required = false) String receiptBase64) {
         User user = userRepository.findById(userId).orElseThrow();
-        user.setPaymentReceipt(receiptBase64);
+        
+        if (receiptBase64 == null || receiptBase64.trim().isEmpty() || receiptBase64.equals("\"\"")) {
+            user.setPaymentReceipt(null);
+        } else {
+            String cleanBase64 = receiptBase64;
+            if (cleanBase64.startsWith("\"") && cleanBase64.endsWith("\"")) {
+                cleanBase64 = cleanBase64.substring(1, cleanBase64.length() - 1);
+            }
+            user.setPaymentReceipt(cleanBase64);
+        }
         return userRepository.save(user);
     }
 
