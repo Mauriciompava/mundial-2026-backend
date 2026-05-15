@@ -23,56 +23,54 @@ public class DatabaseSeederController {
             if (true) { // Forzar inserción para asegurar IDs correctos
                 // ===== INSERTAR 48 EQUIPOS DEL MUNDIAL 2026 =====
                 jdbcTemplate.execute("INSERT INTO teams (id, flag_url, group_name, name) VALUES " +
-                        "(610,'🇲🇽','A','México')," +
-                        "(611,'🇿🇦','A','Sudáfrica')," +
-                        "(612,'🇰🇷','A','Corea del Sur')," +
-                        "(613,'🇨🇿','A','Chequia')," +
-                        "(614,'🇨🇦','B','Canadá')," +
-                        "(615,'🇧🇦','B','Bosnia y Herzegovina')," +
-                        "(616,'🇶🇦','B','Catar')," +
-                        "(617,'🇨🇭','B','Suiza')," +
-                        "(618,'🇧🇷','C','Brasil')," +
-                        "(619,'🇲🇦','C','Marruecos')," +
-                        "(620,'🇭🇹','C','Haití')," +
-                        "(621,'🏴\uDB40\uDC67\uDB40\uDC62\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74\uDB40\uDC7F','C','Escocia'),"
-                        +
-                        "(622,'🇺🇸','D','Estados Unidos')," +
-                        "(623,'🇵🇾','D','Paraguay')," +
-                        "(624,'🇦🇺','D','Australia')," +
-                        "(625,'🇹🇷','D','Turquía')," +
-                        "(626,'🇩🇪','E','Alemania')," +
-                        "(627,'🇨🇼','E','Curazao')," +
-                        "(628,'🇨🇮','E','Costa de Marfil')," +
-                        "(629,'🇪🇨','E','Ecuador')," +
-                        "(630,'🇳🇱','F','Países Bajos')," +
-                        "(631,'🇯🇵','F','Japón')," +
-                        "(632,'🇸🇪','F','Suecia')," +
-                        "(633,'🇹🇳','F','Túnez')," +
-                        "(634,'🇧🇪','G','Bélgica')," +
-                        "(635,'🇪🇬','G','Egipto')," +
-                        "(636,'🇮🇷','G','Irán')," +
-                        "(637,'🇳🇿','G','Nueva Zelanda')," +
-                        "(638,'🇪🇸','H','España')," +
-                        "(639,'🇨🇻','H','Cabo Verde')," +
-                        "(640,'🇸🇦','H','Arabia Saudí')," +
-                        "(641,'🇺🇾','H','Uruguay')," +
-                        "(642,'🇫🇷','I','Francia')," +
-                        "(643,'🇸🇳','I','Senegal')," +
-                        "(644,'🇮🇶','I','Irak')," +
-                        "(645,'🇳🇴','I','Noruega')," +
-                        "(646,'🇦🇷','J','Argentina')," +
-                        "(647,'🇩🇿','J','Argelia')," +
-                        "(648,'🇦🇹','J','Austria')," +
-                        "(649,'🇯🇴','J','Jordania')," +
-                        "(650,'🇵🇹','K','Portugal')," +
-                        "(651,'🇨🇩','K','RD Congo')," +
-                        "(652,'🇺🇿','K','Uzbekistán')," +
-                        "(653,'🇨🇴','K','Colombia')," +
-                        "(654,'🏴\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F','L','Inglaterra'),"
-                        +
-                        "(655,'🇭🇷','L','Croacia')," +
-                        "(656,'🇬🇭','L','Ghana')," +
-                        "(657,'🇵🇦','L','Panamá')");
+                        "(610,'mx','A','México')," +
+                        "(611,'za','A','Sudáfrica')," +
+                        "(612,'kr','A','Corea del Sur')," +
+                        "(613,'cz','A','Chequia')," +
+                        "(614,'ca','B','Canadá')," +
+                        "(615,'ba','B','Bosnia y Herzegovina')," +
+                        "(616,'qa','B','Catar')," +
+                        "(617,'ch','B','Suiza')," +
+                        "(618,'br','C','Brasil')," +
+                        "(619,'ma','C','Marruecos')," +
+                        "(620,'ht','C','Haití')," +
+                        "(621,'gb-sct','C','Escocia')," +
+                        "(622,'us','D','Estados Unidos')," +
+                        "(623,'py','D','Paraguay')," +
+                        "(624,'au','D','Australia')," +
+                        "(625,'tr','D','Turquía')," +
+                        "(626,'de','E','Alemania')," +
+                        "(627,'cw','E','Curazao')," +
+                        "(628,'ci','E','Costa de Marfil')," +
+                        "(629,'ec','E','Ecuador')," +
+                        "(630,'nl','F','Países Bajos')," +
+                        "(631,'jp','F','Japón')," +
+                        "(632,'se','F','Suecia')," +
+                        "(633,'tn','F','Túnez')," +
+                        "(634,'be','G','Bélgica')," +
+                        "(635,'eg','G','Egipto')," +
+                        "(636,'ir','G','Irán')," +
+                        "(637,'nz','G','Nueva Zelanda')," +
+                        "(638,'es','H','España')," +
+                        "(639,'cv','H','Cabo Verde')," +
+                        "(640,'sa','H','Arabia Saudí')," +
+                        "(641,'uy','H','Uruguay')," +
+                        "(642,'fr','I','Francia')," +
+                        "(643,'sn','I','Senegal')," +
+                        "(644,'iq','I','Irak')," +
+                        "(645,'no','I','Noruega')," +
+                        "(646,'ar','J','Argentina')," +
+                        "(647,'dz','J','Argelia')," +
+                        "(648,'at','J','Austria')," +
+                        "(649,'jo','J','Jordania')," +
+                        "(650,'pt','K','Portugal')," +
+                        "(651,'cd','K','RD Congo')," +
+                        "(652,'uz','K','Uzbekistán')," +
+                        "(653,'co','K','Colombia')," +
+                        "(654,'gb-eng','L','Inglaterra')," +
+                        "(655,'hr','L','Croacia')," +
+                        "(656,'gh','L','Ghana')," +
+                        "(657,'pa','L','Panamá')");
             }
 
             // ===== GENERAR 72 PARTIDOS DE FASE DE GRUPOS (6 por grupo) =====

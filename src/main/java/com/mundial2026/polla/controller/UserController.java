@@ -6,6 +6,7 @@ import com.mundial2026.polla.repository.TeamRepository;
 import com.mundial2026.polla.repository.UserRepository;
 import com.mundial2026.polla.service.PollaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class UserController {
     @Autowired
     private PollaService pollaService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -30,15 +34,37 @@ public class UserController {
 
     @PostMapping("/users/register")
     public User register(@RequestBody User user) {
+        // Encrypt password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @PostMapping("/users/login")
     public User login(@RequestBody User loginData) {
-        return userRepository.findAll().stream()
-                .filter(u -> u.getEmail().equals(loginData.getEmail()) && u.getPassword().equals(loginData.getPassword()))
+        User user = userRepository.findAll().stream()
+                .filter(u -> u.getEmail().equals(loginData.getEmail()))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Check if password matches (works for both BCrypt and plain text for transition)
+        boolean matches = false;
+        if (user.getPassword().startsWith("$2a$") || user.getPassword().startsWith("$2b$")) {
+            matches = passwordEncoder.matches(loginData.getPassword(), user.getPassword());
+        } else {
+            // Legacy plain text check
+            matches = user.getPassword().equals(loginData.getPassword());
+            // Optional: Auto-upgrade password to BCrypt if plain match succeeds
+            if (matches) {
+                user.setPassword(passwordEncoder.encode(loginData.getPassword()));
+                userRepository.save(user);
+            }
+        }
+
+        if (!matches) {
+            throw new RuntimeException("Contraseña incorrecta");
+        }
+        
+        return user;
     }
 
     @GetMapping("/teams")

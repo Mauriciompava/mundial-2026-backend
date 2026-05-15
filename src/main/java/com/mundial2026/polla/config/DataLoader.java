@@ -26,9 +26,17 @@ public class DataLoader {
             PredictionRepository predictionRepo) {
         return args -> {
             // Check if data already exists to avoid redundant deletions
-            if (teamRepo.count() > 0) {
-                System.out.println("Database already contains " + teamRepo.count() + " teams. Skipping seed.");
+            // Detect if we need to migrate from emojis to ISO codes
+            boolean needsMigration = teamRepo.findAll().stream()
+                    .anyMatch(t -> t.getName().equals("México") && t.getFlagUrl().equals("🇲🇽"));
+
+            if (teamRepo.count() > 0 && !needsMigration) {
+                System.out.println("Database already contains " + teamRepo.count() + " teams with correct flags. Skipping seed.");
                 return;
+            }
+
+            if (needsMigration) {
+                System.out.println("Legacy emoji flags detected. FORCING DATABASE RE-SEED...");
             }
 
             System.out.println("Refreshing database with EXACT 2026 groups...");
@@ -42,76 +50,76 @@ public class DataLoader {
             List<Team> teams = new ArrayList<>();
 
             // --- GRUPO A ---
-            teams.add(new Team(null, "México", "🇲🇽", "A"));
-            teams.add(new Team(null, "Sudáfrica", "🇿🇦", "A"));
-            teams.add(new Team(null, "Corea del Sur", "🇰🇷", "A"));
-            teams.add(new Team(null, "Chequia", "🇨🇿", "A"));
+            teams.add(new Team(null, "México", "mx", "A"));
+            teams.add(new Team(null, "Sudáfrica", "za", "A"));
+            teams.add(new Team(null, "Corea del Sur", "kr", "A"));
+            teams.add(new Team(null, "Chequia", "cz", "A"));
 
             // --- GRUPO B ---
-            teams.add(new Team(null, "Canadá", "🇨🇦", "B"));
-            teams.add(new Team(null, "Bosnia y Herzegovina", "🇧🇦", "B"));
-            teams.add(new Team(null, "Catar", "🇶🇦", "B"));
-            teams.add(new Team(null, "Suiza", "🇨🇭", "B"));
+            teams.add(new Team(null, "Canadá", "ca", "B"));
+            teams.add(new Team(null, "Bosnia y Herzegovina", "ba", "B"));
+            teams.add(new Team(null, "Catar", "qa", "B"));
+            teams.add(new Team(null, "Suiza", "ch", "B"));
 
             // --- GRUPO C ---
-            teams.add(new Team(null, "Brasil", "🇧🇷", "C"));
-            teams.add(new Team(null, "Marruecos", "🇲🇦", "C"));
-            teams.add(new Team(null, "Haití", "🇭🇹", "C"));
-            teams.add(new Team(null, "Escocia", "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "C"));
+            teams.add(new Team(null, "Brasil", "br", "C"));
+            teams.add(new Team(null, "Marruecos", "ma", "C"));
+            teams.add(new Team(null, "Haití", "ht", "C"));
+            teams.add(new Team(null, "Escocia", "gb-sct", "C"));
 
             // --- GRUPO D ---
-            teams.add(new Team(null, "Estados Unidos", "🇺🇸", "D"));
-            teams.add(new Team(null, "Paraguay", "🇵🇾", "D"));
-            teams.add(new Team(null, "Australia", "🇦🇺", "D"));
-            teams.add(new Team(null, "Turquía", "🇹🇷", "D"));
+            teams.add(new Team(null, "Estados Unidos", "us", "D"));
+            teams.add(new Team(null, "Paraguay", "py", "D"));
+            teams.add(new Team(null, "Australia", "au", "D"));
+            teams.add(new Team(null, "Turquía", "tr", "D"));
 
             // --- GRUPO E ---
-            teams.add(new Team(null, "Alemania", "🇩🇪", "E"));
-            teams.add(new Team(null, "Curazao", "🇨🇼", "E"));
-            teams.add(new Team(null, "Costa de Marfil", "🇨🇮", "E"));
-            teams.add(new Team(null, "Ecuador", "🇪🇨", "E"));
+            teams.add(new Team(null, "Alemania", "de", "E"));
+            teams.add(new Team(null, "Curazao", "cw", "E"));
+            teams.add(new Team(null, "Costa de Marfil", "ci", "E"));
+            teams.add(new Team(null, "Ecuador", "ec", "E"));
 
             // --- GRUPO F ---
-            teams.add(new Team(null, "Países Bajos", "🇳🇱", "F"));
-            teams.add(new Team(null, "Japón", "🇯🇵", "F"));
-            teams.add(new Team(null, "Suecia", "🇸🇪", "F"));
-            teams.add(new Team(null, "Túnez", "🇹🇳", "F"));
+            teams.add(new Team(null, "Países Bajos", "nl", "F"));
+            teams.add(new Team(null, "Japón", "jp", "F"));
+            teams.add(new Team(null, "Suecia", "se", "F"));
+            teams.add(new Team(null, "Túnez", "tn", "F"));
 
             // --- GRUPO G ---
-            teams.add(new Team(null, "Bélgica", "🇧🇪", "G"));
-            teams.add(new Team(null, "Egipto", "🇪🇬", "G"));
-            teams.add(new Team(null, "Irán", "🇮🇷", "G"));
-            teams.add(new Team(null, "Nueva Zelanda", "🇳🇿", "G"));
+            teams.add(new Team(null, "Bélgica", "be", "G"));
+            teams.add(new Team(null, "Egipto", "eg", "G"));
+            teams.add(new Team(null, "Irán", "ir", "G"));
+            teams.add(new Team(null, "Nueva Zelanda", "nz", "G"));
 
             // --- GRUPO H ---
-            teams.add(new Team(null, "España", "🇪🇸", "H"));
-            teams.add(new Team(null, "Cabo Verde", "🇨🇻", "H"));
-            teams.add(new Team(null, "Arabia Saudí", "🇸🇦", "H"));
-            teams.add(new Team(null, "Uruguay", "🇺🇾", "H"));
+            teams.add(new Team(null, "España", "es", "H"));
+            teams.add(new Team(null, "Cabo Verde", "cv", "H"));
+            teams.add(new Team(null, "Arabia Saudí", "sa", "H"));
+            teams.add(new Team(null, "Uruguay", "uy", "H"));
 
             // --- GRUPO I ---
-            teams.add(new Team(null, "Francia", "🇫🇷", "I"));
-            teams.add(new Team(null, "Senegal", "🇸🇳", "I"));
-            teams.add(new Team(null, "Irak", "🇮🇶", "I"));
-            teams.add(new Team(null, "Noruega", "🇳🇴", "I"));
+            teams.add(new Team(null, "Francia", "fr", "I"));
+            teams.add(new Team(null, "Senegal", "sn", "I"));
+            teams.add(new Team(null, "Irak", "iq", "I"));
+            teams.add(new Team(null, "Noruega", "no", "I"));
 
             // --- GRUPO J ---
-            teams.add(new Team(null, "Argentina", "🇦🇷", "J"));
-            teams.add(new Team(null, "Argelia", "🇩🇿", "J"));
-            teams.add(new Team(null, "Austria", "🇦🇹", "J"));
-            teams.add(new Team(null, "Jordania", "🇯🇴", "J"));
+            teams.add(new Team(null, "Argentina", "ar", "J"));
+            teams.add(new Team(null, "Argelia", "dz", "J"));
+            teams.add(new Team(null, "Austria", "at", "J"));
+            teams.add(new Team(null, "Jordania", "jo", "J"));
 
             // --- GRUPO K ---
-            teams.add(new Team(null, "Portugal", "🇵🇹", "K"));
-            teams.add(new Team(null, "RD Congo", "🇨🇩", "K"));
-            teams.add(new Team(null, "Uzbekistán", "🇺🇿", "K"));
-            teams.add(new Team(null, "Colombia", "🇨🇴", "K"));
+            teams.add(new Team(null, "Portugal", "pt", "K"));
+            teams.add(new Team(null, "RD Congo", "cd", "K"));
+            teams.add(new Team(null, "Uzbekistán", "uz", "K"));
+            teams.add(new Team(null, "Colombia", "co", "K"));
 
             // --- GRUPO L ---
-            teams.add(new Team(null, "Inglaterra", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "L"));
-            teams.add(new Team(null, "Croacia", "🇭🇷", "L"));
-            teams.add(new Team(null, "Ghana", "🇬🇭", "L"));
-            teams.add(new Team(null, "Panamá", "🇵🇦", "L"));
+            teams.add(new Team(null, "Inglaterra", "gb-eng", "L"));
+            teams.add(new Team(null, "Croacia", "hr", "L"));
+            teams.add(new Team(null, "Ghana", "gh", "L"));
+            teams.add(new Team(null, "Panamá", "pa", "L"));
 
             List<Team> savedTeams = teamRepo.saveAll(teams);
 
