@@ -2,6 +2,7 @@ package com.mundial2026.polla.controller;
 
 import com.mundial2026.polla.model.Match;
 import com.mundial2026.polla.model.Prediction;
+import com.mundial2026.polla.model.User;
 import com.mundial2026.polla.service.PollaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class PollaController {
     @GetMapping("/stats/income")
     public double getTotalIncome() {
         return userRepo.findAll().stream()
+                .filter(User::isPaid)
                 .mapToDouble(u -> u.getEntryFee() != null ? u.getEntryFee() : 0.0)
                 .sum();
     }
