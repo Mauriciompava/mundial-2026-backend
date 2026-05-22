@@ -29,7 +29,7 @@ public class PollaController {
 
     @GetMapping("/stats/users")
     public long getUserCount() {
-        return userRepo.count();
+        return userRepo.countByPaid(true);
     }
 
     @GetMapping("/stats/predictions")
