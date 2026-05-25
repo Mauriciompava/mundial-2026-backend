@@ -34,7 +34,42 @@ public class PollaService {
     }
 
     public Prediction savePrediction(Prediction prediction) {
-        return predictionRepository.save(prediction);
+        // 1. Validate user exists and has paid account
+        User user = userRepository.findById(prediction.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if (!user.isPaid()) {
+            throw new RuntimeException("Debes tener una cuenta activa para enviar pronósticos.");
+        }
+
+        // 2. Validate match exists and enforce 1-hour lock
+        Match match = matchRepository.findById(prediction.getMatch().getId())
+                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
+        if (match.getMatchDate() != null) {
+            java.time.LocalDateTime cutoff = match.getMatchDate().minusHours(1);
+            if (java.time.LocalDateTime.now().isAfter(cutoff)) {
+                throw new RuntimeException("Los pronósticos para este partido están cerrados (1h antes del inicio).");
+            }
+        }
+        if (match.getStatus() == Match.MatchStatus.FINISHED) {
+            throw new RuntimeException("Este partido ya finalizó.");
+        }
+
+        // 3. Upsert: update existing prediction or create new one
+        Prediction existing = predictionRepository.findAll().stream()
+                .filter(p -> p.getUser().getId().equals(user.getId())
+                          && p.getMatch().getId().equals(match.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if (existing != null) {
+            existing.setPredictedHomeScore(prediction.getPredictedHomeScore());
+            existing.setPredictedAwayScore(prediction.getPredictedAwayScore());
+            return predictionRepository.save(existing);
+        } else {
+            prediction.setUser(user);
+            prediction.setMatch(match);
+            return predictionRepository.save(prediction);
+        }
     }
 
     @Transactional
