@@ -124,4 +124,24 @@ public class DatabaseSeederController {
             return "❌ Error: " + e.getMessage();
         }
     }
+
+    @PostMapping("/update-times-colombia")
+    public String updateTimesColombia() {
+        try {
+            // 1. Restar 5 horas a todos los partidos para pasarlos a hora de Colombia
+            jdbcTemplate.execute("UPDATE matches SET match_date = DATE_SUB(match_date, INTERVAL 5 HOUR)");
+            
+            // 2. Establecer el primer y segundo partido (tanto de IDs 222/223 como 1000/1001) 
+            // a horario futuro de hoy 11 de Junio (8:00 PM y 9:00 PM respectivamente) para que estén abiertos.
+            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 20:00:00.000000' WHERE id = 222");
+            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 21:00:00.000000' WHERE id = 223");
+            
+            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 20:00:00.000000' WHERE id = 1000");
+            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 21:00:00.000000' WHERE id = 1001");
+
+            return "✅ Horarios de todos los partidos actualizados a hora colombiana (-5h). El primer y segundo partido se configuraron para hoy a las 8:00 PM y 9:00 PM (hora de Colombia) para que estén abiertos.";
+        } catch (Exception e) {
+            return "❌ Error al actualizar horarios: " + e.getMessage();
+        }
+    }
 }
