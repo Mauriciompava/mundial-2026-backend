@@ -129,6 +129,100 @@ public class DatabaseSeederController {
             return "❌ Error: " + e.getMessage();
         }
     }
+    @PostMapping("/set-real-schedules")
+    public String setRealSchedules() {
+        try {
+            // Fecha 1
+            updateMatchTime("México", "Sudáfrica", "2026-06-11 14:00:00");
+            updateMatchTime("Corea del Sur", "Chequia", "2026-06-11 21:00:00");
+            updateMatchTime("Canadá", "Bosnia y Herzegovina", "2026-06-12 14:00:00");
+            updateMatchTime("Estados Unidos", "Paraguay", "2026-06-12 20:00:00");
+            updateMatchTime("Catar", "Suiza", "2026-06-13 14:00:00");
+            updateMatchTime("Brasil", "Marruecos", "2026-06-13 17:00:00");
+            updateMatchTime("Haití", "Escocia", "2026-06-13 20:00:00");
+            updateMatchTime("Australia", "Turquía", "2026-06-13 23:00:00");
+            updateMatchTime("Alemania", "Curazao", "2026-06-14 12:00:00");
+            updateMatchTime("Países Bajos", "Japón", "2026-06-14 15:00:00");
+            updateMatchTime("Costa de Marfil", "Ecuador", "2026-06-14 18:00:00");
+            updateMatchTime("Suecia", "Túnez", "2026-06-14 21:00:00");
+            updateMatchTime("España", "Cabo Verde", "2026-06-15 11:00:00");
+            updateMatchTime("Bélgica", "Egipto", "2026-06-15 14:00:00");
+            updateMatchTime("Arabia Saudí", "Uruguay", "2026-06-15 17:00:00");
+            updateMatchTime("Irán", "Nueva Zelanda", "2026-06-15 20:00:00");
+            updateMatchTime("Francia", "Senegal", "2026-06-16 14:00:00");
+            updateMatchTime("Irak", "Noruega", "2026-06-16 17:00:00");
+            updateMatchTime("Argentina", "Argelia", "2026-06-16 20:00:00");
+            updateMatchTime("Austria", "Jordania", "2026-06-16 23:00:00");
+            updateMatchTime("Portugal", "RD Congo", "2026-06-17 12:00:00");
+            updateMatchTime("Inglaterra", "Croacia", "2026-06-17 15:00:00");
+            updateMatchTime("Ghana", "Panamá", "2026-06-17 18:00:00");
+            updateMatchTime("Uzbekistán", "Colombia", "2026-06-17 21:00:00");
+
+            // Fecha 2
+            updateMatchTime("Chequia", "Sudáfrica", "2026-06-18 11:00:00");
+            updateMatchTime("Suiza", "Bosnia y Herzegovina", "2026-06-18 14:00:00");
+            updateMatchTime("Canadá", "Catar", "2026-06-18 17:00:00");
+            updateMatchTime("México", "Corea del Sur", "2026-06-18 20:00:00");
+            updateMatchTime("Estados Unidos", "Australia", "2026-06-19 14:00:00");
+            updateMatchTime("Escocia", "Marruecos", "2026-06-19 17:00:00");
+            updateMatchTime("Brasil", "Haití", "2026-06-19 20:00:00");
+            updateMatchTime("Turquía", "Paraguay", "2026-06-19 23:00:00");
+            updateMatchTime("Países Bajos", "Suecia", "2026-06-20 14:00:00");
+            updateMatchTime("Alemania", "Costa de Marfil", "2026-06-20 15:00:00");
+            updateMatchTime("Ecuador", "Curazao", "2026-06-20 19:00:00");
+            updateMatchTime("Túnez", "Japón", "2026-06-20 23:00:00");
+            updateMatchTime("España", "Arabia Saudí", "2026-06-21 11:00:00");
+            updateMatchTime("Bélgica", "Irán", "2026-06-21 14:00:00");
+            updateMatchTime("Uruguay", "Cabo Verde", "2026-06-21 17:00:00");
+            updateMatchTime("Nueva Zelanda", "Egipto", "2026-06-21 20:00:00");
+            updateMatchTime("Argentina", "Austria", "2026-06-22 12:00:00");
+            updateMatchTime("Francia", "Irak", "2026-06-22 16:00:00");
+            updateMatchTime("Noruega", "Senegal", "2026-06-22 19:00:00");
+            updateMatchTime("Jordania", "Argelia", "2026-06-22 22:00:00");
+            updateMatchTime("Portugal", "Uzbekistán", "2026-06-23 12:00:00");
+            updateMatchTime("Inglaterra", "Ghana", "2026-06-23 15:00:00");
+            updateMatchTime("Panamá", "Croacia", "2026-06-23 18:00:00");
+            updateMatchTime("Colombia", "RD Congo", "2026-06-23 21:00:00");
+
+            // Fecha 3
+            updateMatchTime("Suiza", "Canadá", "2026-06-24 14:00:00");
+            updateMatchTime("Bosnia y Herzegovina", "Catar", "2026-06-24 14:00:00");
+            updateMatchTime("Escocia", "Brasil", "2026-06-24 17:00:00");
+            updateMatchTime("Marruecos", "Haití", "2026-06-24 17:00:00");
+            updateMatchTime("Chequia", "México", "2026-06-24 20:00:00");
+            updateMatchTime("Sudáfrica", "Corea del Sur", "2026-06-24 20:00:00");
+            updateMatchTime("Curazao", "Costa de Marfil", "2026-06-25 15:00:00");
+            updateMatchTime("Ecuador", "Alemania", "2026-06-25 15:00:00");
+            updateMatchTime("Japón", "Suecia", "2026-06-25 18:00:00");
+            updateMatchTime("Túnez", "Países Bajos", "2026-06-25 18:00:00");
+            updateMatchTime("Turquía", "Estados Unidos", "2026-06-25 21:00:00");
+            updateMatchTime("Paraguay", "Australia", "2026-06-25 21:00:00");
+            updateMatchTime("Noruega", "Francia", "2026-06-26 14:00:00");
+            updateMatchTime("Senegal", "Irak", "2026-06-26 14:00:00");
+            updateMatchTime("Cabo Verde", "Arabia Saudí", "2026-06-26 19:00:00");
+            updateMatchTime("Uruguay", "España", "2026-06-26 19:00:00");
+            updateMatchTime("Egipto", "Irán", "2026-06-26 22:00:00");
+            updateMatchTime("Nueva Zelanda", "Bélgica", "2026-06-26 22:00:00");
+            updateMatchTime("Panamá", "Inglaterra", "2026-06-27 16:00:00");
+            updateMatchTime("Croacia", "Ghana", "2026-06-27 16:00:00");
+            updateMatchTime("Colombia", "Portugal", "2026-06-27 18:30:00");
+            updateMatchTime("RD Congo", "Uzbekistán", "2026-06-27 18:30:00");
+            updateMatchTime("Argelia", "Austria", "2026-06-27 21:00:00");
+            updateMatchTime("Jordania", "Argentina", "2026-06-27 21:00:00");
+
+            return "✅ Todos los 72 partidos de fase de grupos actualizados con los horarios reales de Colombia.";
+        } catch (Exception e) {
+            return "❌ Error al actualizar horarios reales: " + e.getMessage();
+        }
+    }
+
+    private void updateMatchTime(String teamA, String teamB, String dateTime) {
+        String sql = "UPDATE matches SET match_date = ? WHERE " +
+                     "(home_team_id = (SELECT id FROM teams WHERE name = ?) AND away_team_id = (SELECT id FROM teams WHERE name = ?)) OR " +
+                     "(home_team_id = (SELECT id FROM teams WHERE name = ?) AND away_team_id = (SELECT id FROM teams WHERE name = ?))";
+        jdbcTemplate.update(sql, dateTime, teamA, teamB, teamB, teamA);
+    }
+
     @PostMapping("/recalculate-points")
     public String recalculatePoints() {
         try {
