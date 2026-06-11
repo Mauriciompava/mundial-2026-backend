@@ -45,9 +45,10 @@ public class PollaService {
         Match match = matchRepository.findById(prediction.getMatch().getId())
                 .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
         if (match.getMatchDate() != null) {
-            java.time.LocalDateTime cutoff = match.getMatchDate().minusHours(1);
-            if (java.time.LocalDateTime.now().isAfter(cutoff)) {
-                throw new RuntimeException("Los pronósticos para este partido están cerrados (1h antes del inicio).");
+            java.time.LocalDateTime cutoff = match.getMatchDate().minusMinutes(15);
+            java.time.LocalDateTime nowColombia = java.time.LocalDateTime.now(java.time.ZoneId.of("America/Bogota"));
+            if (nowColombia.isAfter(cutoff)) {
+                throw new RuntimeException("Los pronósticos para este partido están cerrados (15 minutos antes del inicio).");
             }
         }
         if (match.getStatus() == Match.MatchStatus.FINISHED) {
