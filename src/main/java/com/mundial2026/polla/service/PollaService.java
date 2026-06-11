@@ -73,6 +73,44 @@ public class PollaService {
         }
     }
 
+    public void recalculateUserTotalPoints(User user) {
+        int pointsFromPredictions = predictionRepository.findByUser(user).stream()
+                .mapToInt(p -> p.getPointsWon() != null ? p.getPointsWon() : 0)
+                .sum();
+
+        int championPoints = 0;
+        if (user.getChampionTeam() != null) {
+            Match finalMatch = matchRepository.findAll().stream()
+                    .filter(m -> "Final".equalsIgnoreCase(m.getStage()) && m.getStatus() == Match.MatchStatus.FINISHED)
+                    .findFirst()
+                    .orElse(null);
+            if (finalMatch != null) {
+                Team winner = null;
+                if (finalMatch.getHomeScore() != null && finalMatch.getAwayScore() != null) {
+                    if (finalMatch.getHomeScore() > finalMatch.getAwayScore()) {
+                        winner = finalMatch.getHomeTeam();
+                    } else if (finalMatch.getAwayScore() > finalMatch.getHomeScore()) {
+                        winner = finalMatch.getAwayTeam();
+                    }
+                }
+                if (winner != null && winner.getId().equals(user.getChampionTeam().getId())) {
+                    championPoints = getSettingAsInt("pointsChampion", 100);
+                }
+            }
+        }
+
+        user.setTotalPoints(pointsFromPredictions + championPoints);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void recalculateAllUsersTotalPoints() {
+        List<User> users = userRepository.findAll();
+        for (User u : users) {
+            recalculateUserTotalPoints(u);
+        }
+    }
+
     @Transactional
     public void updateMatchResult(Long matchId, Integer homeScore, Integer awayScore) {
         Match match = matchRepository.findById(matchId).orElseThrow();
@@ -92,86 +130,33 @@ public class PollaService {
             int points = calculatePoints(p, homeScore, awayScore, pExact, pWinner, pDraw);
             p.setPointsWon(points);
             predictionRepository.save(p);
-
-            // Update user total points
-            User user = p.getUser();
-            int currentPoints = user.getTotalPoints() != null ? user.getTotalPoints() : 0;
-            user.setTotalPoints(currentPoints + points);
-            userRepository.save(user);
         }
 
-        // CHAMPION LOGIC: If this is the Final, award 100 points to those who picked the winner
-        if ("Final".equalsIgnoreCase(match.getStage())) {
-            Team winner = null;
-            if (homeScore > awayScore) winner = match.getHomeTeam();
-            else if (awayScore > homeScore) winner = match.getAwayTeam();
-            
-            if (winner != null) {
-                final Team finalWinner = winner;
-                List<User> allUsers = userRepository.findAll();
-                for (User u : allUsers) {
-                    if (u.getChampionTeam() != null && u.getChampionTeam().getId().equals(finalWinner.getId())) {
-                        int currentPts = u.getTotalPoints() != null ? u.getTotalPoints() : 0;
-                        u.setTotalPoints(currentPts + 100);
-                        userRepository.save(u);
-                    }
-                }
-            }
-        }
+        // Recalculate total points for all users
+        recalculateAllUsersTotalPoints();
     }
 
     @Transactional
     public Match resetMatch(Long matchId) {
         Match match = matchRepository.findById(matchId).orElseThrow();
         
-        // Find all predictions and REVERT points
-        List<Prediction> predictions = predictionRepository.findByMatchId(matchId);
-        for (Prediction p : predictions) {
-            int pointsToSubtract = p.getPointsWon() != null ? p.getPointsWon() : 0;
-            
-            // Update user total points
-            User user = p.getUser();
-            int currentPoints = user.getTotalPoints() != null ? user.getTotalPoints() : 0;
-            user.setTotalPoints(Math.max(0, currentPoints - pointsToSubtract));
-            userRepository.save(user);
-
-            // Reset prediction points
-            p.setPointsWon(0);
-            predictionRepository.save(p);
-        }
-
         // Reset match status and scores
         match.setHomeScore(null);
         match.setAwayScore(null);
         match.setStatus(Match.MatchStatus.SCHEDULED);
+        matchRepository.save(match);
 
-        // REVERT CHAMPION POINTS: If this was the Final, remove the 100 points
-        if ("Final".equalsIgnoreCase(match.getStage())) {
-            List<User> allUsers = userRepository.findAll();
-            for (User u : allUsers) {
-                // We check if the user had a champion picked (any champion) and subtract 100 
-                // ONLY if they were awarded before. This is a bit tricky without a flag, 
-                // but since we reset the whole match, we assume everyone who had the winner got 100.
-                // To be safe, we should only subtract if the user's champion was the winner of THIS match before reset.
-                // But we already lost the scores. 
-                // Let's assume we subtract 100 from everyone whose championTeam was one of the teams in this match? 
-                // No, only the one who won. 
-                // Actually, since this is a reset for testing, it's safer to just subtract 100 
-                // from anyone who has > 100 points and a champion picked? No.
-                
-                // Let's just subtract 100 from all users who HAVE a champion team picked, 
-                // because they would have received it if they won. 
-                // Actually, the most robust way is to store if the points were awarded, but for now:
-                // If they have > 100 points, we subtract 100.
-                int currentPts = u.getTotalPoints() != null ? u.getTotalPoints() : 0;
-                if (u.getChampionTeam() != null) {
-                    u.setTotalPoints(Math.max(0, currentPts - 100));
-                    userRepository.save(u);
-                }
-            }
+        // Find all predictions and reset points to 0
+        List<Prediction> predictions = predictionRepository.findByMatchId(matchId);
+        for (Prediction p : predictions) {
+            p.setPointsWon(0);
+            predictionRepository.save(p);
         }
 
-        return matchRepository.save(match);
+        // Recalculate total points for all users
+        recalculateAllUsersTotalPoints();
+
+        return match;
     }
 
     private int getSettingAsInt(String key, int defaultValue) {

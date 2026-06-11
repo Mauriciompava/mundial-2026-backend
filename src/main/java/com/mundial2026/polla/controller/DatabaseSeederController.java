@@ -1,5 +1,6 @@
 package com.mundial2026.polla.controller;
 
+import com.mundial2026.polla.service.PollaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,9 @@ public class DatabaseSeederController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private PollaService pollaService;
+
     @PostMapping("/seed")
     public String seedDatabase() {
         try {
@@ -18,6 +22,7 @@ public class DatabaseSeederController {
             jdbcTemplate.execute("DELETE FROM predictions");
             jdbcTemplate.execute("DELETE FROM matches");
             jdbcTemplate.execute("DELETE FROM teams");
+            jdbcTemplate.execute("UPDATE users SET total_points = 0, champion_team_id = null");
 
             // Re-insertar equipos con IDs fijos (610-657)
             if (true) { // Forzar inserción para asegurar IDs correctos
@@ -124,24 +129,13 @@ public class DatabaseSeederController {
             return "❌ Error: " + e.getMessage();
         }
     }
-
-    @PostMapping("/update-times-colombia")
-    public String updateTimesColombia() {
+    @PostMapping("/recalculate-points")
+    public String recalculatePoints() {
         try {
-            // 1. Restar 5 horas a todos los partidos para pasarlos a hora de Colombia
-            jdbcTemplate.execute("UPDATE matches SET match_date = DATE_SUB(match_date, INTERVAL 5 HOUR)");
-            
-            // 2. Establecer el primer y segundo partido (tanto de IDs 222/223 como 1000/1001) 
-            // a horario futuro de hoy 11 de Junio (8:00 PM y 9:00 PM respectivamente) para que estén abiertos.
-            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 20:00:00.000000' WHERE id = 222");
-            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 21:00:00.000000' WHERE id = 223");
-            
-            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 20:00:00.000000' WHERE id = 1000");
-            jdbcTemplate.execute("UPDATE matches SET match_date = '2026-06-11 21:00:00.000000' WHERE id = 1001");
-
-            return "✅ Horarios de todos los partidos actualizados a hora colombiana (-5h). El primer y segundo partido se configuraron para hoy a las 8:00 PM y 9:00 PM (hora de Colombia) para que estén abiertos.";
+            pollaService.recalculateAllUsersTotalPoints();
+            return "✅ Todos los puntos de los usuarios han sido recalculados dinámicamente según sus predicciones y el campeón seleccionado.";
         } catch (Exception e) {
-            return "❌ Error al actualizar horarios: " + e.getMessage();
+            return "❌ Error al recalcular puntos: " + e.getMessage();
         }
     }
 }
