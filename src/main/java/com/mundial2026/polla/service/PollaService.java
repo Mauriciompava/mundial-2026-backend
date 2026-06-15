@@ -56,11 +56,7 @@ public class PollaService {
         }
 
         // 3. Upsert: update existing prediction or create new one
-        Prediction existing = predictionRepository.findAll().stream()
-                .filter(p -> p.getUser().getId().equals(user.getId())
-                          && p.getMatch().getId().equals(match.getId()))
-                .findFirst()
-                .orElse(null);
+        Prediction existing = predictionRepository.findByUserIdAndMatchId(user.getId(), match.getId()).orElse(null);
 
         if (existing != null) {
             existing.setPredictedHomeScore(prediction.getPredictedHomeScore());
@@ -105,6 +101,7 @@ public class PollaService {
 
     @Transactional
     public void recalculateAllUsersTotalPoints() {
+        cleanupDuplicatePredictions();
         List<User> users = userRepository.findAll();
         for (User u : users) {
             recalculateUserTotalPoints(u);
@@ -113,6 +110,7 @@ public class PollaService {
 
     @Transactional
     public void updateMatchResult(Long matchId, Integer homeScore, Integer awayScore) {
+        cleanupDuplicatePredictions();
         Match match = matchRepository.findById(matchId).orElseThrow();
         match.setHomeScore(homeScore);
         match.setAwayScore(awayScore);
@@ -138,6 +136,7 @@ public class PollaService {
 
     @Transactional
     public Match resetMatch(Long matchId) {
+        cleanupDuplicatePredictions();
         Match match = matchRepository.findById(matchId).orElseThrow();
         
         // Reset match status and scores
@@ -193,6 +192,22 @@ public class PollaService {
         }
 
         return 0;
+    }
+    
+    @Transactional
+    public void cleanupDuplicatePredictions() {
+        List<Prediction> allPredictions = predictionRepository.findAll();
+        java.util.Map<String, List<Prediction>> grouped = allPredictions.stream()
+            .collect(java.util.stream.Collectors.groupingBy(p -> p.getUser().getId() + "_" + p.getMatch().getId()));
+        
+        for (List<Prediction> list : grouped.values()) {
+            if (list.size() > 1) {
+                list.sort(java.util.Comparator.comparing(Prediction::getId));
+                for (int i = 0; i < list.size() - 1; i++) {
+                    predictionRepository.delete(list.get(i));
+                }
+            }
+        }
     }
     
     @Transactional
