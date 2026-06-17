@@ -71,10 +71,7 @@ public class PollaController {
 
     @GetMapping("/predictions/check")
     public Prediction checkPrediction(@RequestParam Long userId, @RequestParam Long matchId) {
-        return predictionRepo.findAll().stream()
-                .filter(p -> p.getUser().getId().equals(userId) && p.getMatch().getId().equals(matchId))
-                .findFirst()
-                .orElse(null);
+        return predictionRepo.findByUserIdAndMatchId(userId, matchId).orElse(null);
     }
 
     @GetMapping("/predictions/user/{userId}")
