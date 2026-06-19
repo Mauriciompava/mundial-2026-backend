@@ -2,7 +2,6 @@ package com.mundial2026.polla.controller;
 
 import com.mundial2026.polla.model.Match;
 import com.mundial2026.polla.model.Prediction;
-import com.mundial2026.polla.model.User;
 import com.mundial2026.polla.service.PollaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,17 +38,14 @@ public class PollaController {
 
     @GetMapping("/stats/income")
     public double getTotalIncome() {
-        return userRepo.findAll().stream()
-                .filter(User::isPaid)
-                .mapToDouble(u -> u.getEntryFee() != null ? u.getEntryFee() : 0.0)
-                .sum();
+        Double income = userRepo.getTotalIncomeForPaidUsers();
+        return income != null ? income : 0.0;
     }
 
     @GetMapping("/stats/total-points")
     public long getTotalPoints() {
-        return userRepo.findAll().stream()
-                .mapToLong(u -> u.getTotalPoints() != null ? u.getTotalPoints() : 0)
-                .sum();
+        Long points = userRepo.getTotalPointsSum();
+        return points != null ? points : 0;
     }
 
     @GetMapping("/stats/matches-count")
@@ -76,9 +72,7 @@ public class PollaController {
 
     @GetMapping("/predictions/user/{userId}")
     public List<Prediction> getUserPredictions(@PathVariable Long userId) {
-        return predictionRepo.findAll().stream()
-                .filter(p -> p.getUser().getId().equals(userId))
-                .toList();
+        return predictionRepo.findByUserId(userId);
     }
 
     @PostMapping("/matches/{id}/result")
