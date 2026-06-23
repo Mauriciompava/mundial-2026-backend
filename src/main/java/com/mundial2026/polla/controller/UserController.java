@@ -107,6 +107,13 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @GetMapping("/users/{userId}/receipt")
+    public String getReceipt(@PathVariable Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return user.getPaymentReceipt() != null ? user.getPaymentReceipt() : "";
+    }
+
     @PostMapping("/users/{userId}/toggle-payment")
     public User togglePayment(@PathVariable Long userId, @RequestParam boolean status) {
         User user = userRepository.findById(userId).orElseThrow();

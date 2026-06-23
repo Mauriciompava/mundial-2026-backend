@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "users")
@@ -26,8 +28,15 @@ public class User {
     private Integer totalPoints = 0;
     private Double entryFee = 20000.0;
     private boolean paid = false;
+
+    @JsonIgnore
     @Column(columnDefinition = "LONGTEXT")
     private String paymentReceipt; // Will store base64 image
+
+    @JsonProperty("hasReceipt")
+    public boolean getHasReceipt() {
+        return paymentReceipt != null && !paymentReceipt.trim().isEmpty() && !paymentReceipt.equals("\"\"");
+    }
 
     @ManyToOne
     @JoinColumn(name = "champion_team_id")

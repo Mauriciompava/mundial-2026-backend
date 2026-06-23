@@ -232,4 +232,10 @@ public class DatabaseSeederController {
             return "❌ Error al recalcular puntos: " + e.getMessage();
         }
     }
+
+    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
+    public void autoUpdateSchedulesOnStartup() {
+        System.out.println("Auto updating match schedules on startup...");
+        setRealSchedules();
+    }
 }
