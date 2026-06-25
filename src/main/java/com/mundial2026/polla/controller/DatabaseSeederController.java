@@ -210,7 +210,25 @@ public class DatabaseSeederController {
             updateMatchTime("Argelia", "Austria", "2026-06-27 21:00:00");
             updateMatchTime("Jordania", "Argentina", "2026-06-27 21:00:00");
 
-            return "✅ Todos los 72 partidos de fase de grupos actualizados con los horarios reales de Colombia.";
+            // Dieciseisavos (Eliminatoria de 32)
+            updateKnockoutMatch(1072L, "Sudáfrica", "Canadá", "2026-06-28 14:00:00");
+            updateKnockoutMatch(1073L, "Brasil", "A definir", "2026-06-29 12:00:00");
+            updateKnockoutMatch(1074L, "Alemania", "A definir", "2026-06-29 15:30:00");
+            updateKnockoutMatch(1075L, "A definir", "Marruecos", "2026-06-29 20:00:00");
+            updateKnockoutMatch(1076L, "A definir", "A definir", "2026-06-30 12:00:00");
+            updateKnockoutMatch(1077L, "A definir", "A definir", "2026-06-30 16:00:00");
+            updateKnockoutMatch(1078L, "México", "A definir", "2026-06-30 20:00:00");
+            updateKnockoutMatch(1079L, "A definir", "A definir", "2026-07-01 11:00:00");
+            updateKnockoutMatch(1080L, "A definir", "A definir", "2026-07-01 15:00:00");
+            updateKnockoutMatch(1081L, "Estados Unidos", "A definir", "2026-07-01 19:00:00");
+            updateKnockoutMatch(1082L, "A definir", "A definir", "2026-07-02 14:00:00");
+            updateKnockoutMatch(1083L, "A definir", "A definir", "2026-07-02 18:00:00");
+            updateKnockoutMatch(1084L, "Suiza", "A definir", "2026-07-02 22:00:00");
+            updateKnockoutMatch(1085L, "A definir", "A definir", "2026-07-03 13:00:00");
+            updateKnockoutMatch(1086L, "Argentina", "A definir", "2026-07-03 17:00:00");
+            updateKnockoutMatch(1087L, "A definir", "A definir", "2026-07-03 20:30:00");
+
+            return "✅ Todos los partidos de fase de grupos y eliminatorias de 32 actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
             return "❌ Error al actualizar horarios reales: " + e.getMessage();
         }
@@ -221,6 +239,21 @@ public class DatabaseSeederController {
                      "(home_team_id = (SELECT id FROM teams WHERE name = ?) AND away_team_id = (SELECT id FROM teams WHERE name = ?)) OR " +
                      "(home_team_id = (SELECT id FROM teams WHERE name = ?) AND away_team_id = (SELECT id FROM teams WHERE name = ?))";
         jdbcTemplate.update(sql, dateTime, teamA, teamB, teamB, teamA);
+    }
+
+    private void updateKnockoutMatch(long id, String teamA, String teamB, String dateTime) {
+        String sql = "UPDATE matches SET " +
+                     "home_team_id = ?, " +
+                     "away_team_id = ?, " +
+                     "match_date = ? WHERE id = ?";
+        
+        Long homeTeamId = (teamA == null || "A definir".equals(teamA)) ? null : 
+            jdbcTemplate.queryForObject("SELECT id FROM teams WHERE name = ?", Long.class, teamA);
+        
+        Long awayTeamId = (teamB == null || "A definir".equals(teamB)) ? null : 
+            jdbcTemplate.queryForObject("SELECT id FROM teams WHERE name = ?", Long.class, teamB);
+            
+        jdbcTemplate.update(sql, homeTeamId, awayTeamId, dateTime, id);
     }
 
     @PostMapping("/recalculate-points")
