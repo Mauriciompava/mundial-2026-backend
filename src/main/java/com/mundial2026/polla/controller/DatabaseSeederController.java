@@ -132,7 +132,7 @@ public class DatabaseSeederController {
     @PostMapping("/set-real-schedules")
     public String setRealSchedules() {
         try {
-            // Fecha 1
+            // Fecha 1 (Verificado y actualizado al 25 de junio de 2026)
             updateMatchTime("México", "Sudáfrica", "2026-06-11 14:00:00");
             updateMatchTime("Corea del Sur", "Chequia", "2026-06-11 21:00:00");
             updateMatchTime("Canadá", "Bosnia y Herzegovina", "2026-06-12 14:00:00");
