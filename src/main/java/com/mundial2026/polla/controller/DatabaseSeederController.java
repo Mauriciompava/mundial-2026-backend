@@ -212,21 +212,21 @@ public class DatabaseSeederController {
 
             // Dieciseisavos (Eliminatoria de 32)
             updateKnockoutMatch(1072L, "Sudáfrica", "Canadá", "2026-06-28 14:00:00");
-            updateKnockoutMatch(1073L, "Brasil", "A definir", "2026-06-29 12:00:00");
-            updateKnockoutMatch(1074L, "Alemania", "A definir", "2026-06-29 15:30:00");
-            updateKnockoutMatch(1075L, "A definir", "Marruecos", "2026-06-29 20:00:00");
-            updateKnockoutMatch(1076L, "A definir", "A definir", "2026-06-30 12:00:00");
-            updateKnockoutMatch(1077L, "A definir", "A definir", "2026-06-30 16:00:00");
-            updateKnockoutMatch(1078L, "México", "A definir", "2026-06-30 20:00:00");
-            updateKnockoutMatch(1079L, "A definir", "A definir", "2026-07-01 11:00:00");
-            updateKnockoutMatch(1080L, "A definir", "A definir", "2026-07-01 15:00:00");
-            updateKnockoutMatch(1081L, "Estados Unidos", "A definir", "2026-07-01 19:00:00");
-            updateKnockoutMatch(1082L, "A definir", "A definir", "2026-07-02 14:00:00");
-            updateKnockoutMatch(1083L, "A definir", "A definir", "2026-07-02 18:00:00");
-            updateKnockoutMatch(1084L, "Suiza", "A definir", "2026-07-02 22:00:00");
-            updateKnockoutMatch(1085L, "A definir", "A definir", "2026-07-03 13:00:00");
-            updateKnockoutMatch(1086L, "Argentina", "A definir", "2026-07-03 17:00:00");
-            updateKnockoutMatch(1087L, "A definir", "A definir", "2026-07-03 20:30:00");
+            updateKnockoutMatch(1073L, "Brasil", "Japón", "2026-06-29 12:00:00");
+            updateKnockoutMatch(1074L, "Alemania", "Paraguay", "2026-06-29 15:30:00");
+            updateKnockoutMatch(1075L, "Países Bajos", "Marruecos", "2026-06-29 20:00:00");
+            updateKnockoutMatch(1076L, "Costa de Marfil", "Noruega", "2026-06-30 12:00:00");
+            updateKnockoutMatch(1077L, "Francia", "Suecia", "2026-06-30 16:00:00");
+            updateKnockoutMatch(1078L, "México", "Ecuador", "2026-06-30 20:00:00");
+            updateKnockoutMatch(1079L, "Inglaterra", "RD Congo", "2026-07-01 11:00:00");
+            updateKnockoutMatch(1080L, "Bélgica", "Senegal", "2026-07-01 15:00:00");
+            updateKnockoutMatch(1081L, "Estados Unidos", "Bosnia y Herzegovina", "2026-07-01 19:00:00");
+            updateKnockoutMatch(1082L, "España", "Austria", "2026-07-02 14:00:00");
+            updateKnockoutMatch(1083L, "Portugal", "Croacia", "2026-07-02 18:00:00");
+            updateKnockoutMatch(1084L, "Suiza", "Argelia", "2026-07-02 22:00:00");
+            updateKnockoutMatch(1085L, "Australia", "Egipto", "2026-07-03 13:00:00");
+            updateKnockoutMatch(1086L, "Argentina", "Cabo Verde", "2026-07-03 17:00:00");
+            updateKnockoutMatch(1087L, "Colombia", "Ghana", "2026-07-03 20:30:00");
 
             return "✅ Todos los partidos de fase de grupos y eliminatorias de 32 actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
