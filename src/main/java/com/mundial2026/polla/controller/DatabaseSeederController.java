@@ -229,15 +229,15 @@ public class DatabaseSeederController {
             updateKnockoutMatch(1086L, "Argentina", "Cabo Verde", "2026-07-03 17:00:00");
             updateKnockoutMatch(1087L, "Colombia", "Ghana", "2026-07-03 20:30:00");
 
-            // Octavos de final
-            updateKnockoutMatch(1088L, "Canadá", "Marruecos", "2026-07-04 12:00:00");
-            updateKnockoutMatch(1089L, "Paraguay", "Francia", "2026-07-04 16:00:00");
-            updateKnockoutMatch(1090L, "Brasil", "Noruega", "2026-07-05 15:00:00");
-            updateKnockoutMatch(1091L, "México", "Inglaterra", "2026-07-05 19:00:00");
-            updateKnockoutMatch(1092L, "Portugal", "España", "2026-07-06 14:00:00");
-            updateKnockoutMatch(1093L, "Estados Unidos", "Bélgica", "2026-07-06 19:00:00");
-            updateKnockoutMatch(1094L, "A definir", "A definir", "2026-07-07 11:00:00");
-            updateKnockoutMatch(1095L, "Suiza", "A definir", "2026-07-07 15:00:00");
+            // Octavos de final (convertidos de hora local Colombia a UTC sumando 5 horas)
+            updateKnockoutMatch(1088L, "Canadá", "Marruecos", "2026-07-04 17:00:00");
+            updateKnockoutMatch(1089L, "Paraguay", "Francia", "2026-07-04 21:00:00");
+            updateKnockoutMatch(1090L, "Brasil", "Noruega", "2026-07-05 20:00:00");
+            updateKnockoutMatch(1091L, "México", "Inglaterra", "2026-07-06 00:00:00");
+            updateKnockoutMatch(1092L, "Portugal", "España", "2026-07-06 19:00:00");
+            updateKnockoutMatch(1093L, "Estados Unidos", "Bélgica", "2026-07-07 00:00:00");
+            updateKnockoutMatch(1094L, "A definir", "A definir", "2026-07-07 16:00:00");
+            updateKnockoutMatch(1095L, "Suiza", "A definir", "2026-07-07 20:00:00");
 
             return "✅ Todos los partidos de fase de grupos y eliminatorias de 32 y octavos actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
