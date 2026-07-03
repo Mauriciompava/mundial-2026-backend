@@ -225,9 +225,9 @@ public class DatabaseSeederController {
             updateKnockoutMatch(1082L, "España", "Austria", "2026-07-02 14:00:00");
             updateKnockoutMatch(1083L, "Portugal", "Croacia", "2026-07-02 18:00:00");
             updateKnockoutMatch(1084L, "Suiza", "Argelia", "2026-07-02 22:00:00");
-            updateKnockoutMatch(1085L, "Australia", "Egipto", "2026-07-03 13:00:00");
-            updateKnockoutMatch(1086L, "Argentina", "Cabo Verde", "2026-07-03 17:00:00");
-            updateKnockoutMatch(1087L, "Colombia", "Ghana", "2026-07-03 20:30:00");
+            updateKnockoutMatch(1085L, "Australia", "Egipto", "2026-07-03 18:00:00");
+            updateKnockoutMatch(1086L, "Argentina", "Cabo Verde", "2026-07-03 22:00:00");
+            updateKnockoutMatch(1087L, "Colombia", "Ghana", "2026-07-04 01:30:00");
 
             // Octavos de final (convertidos de hora local Colombia a UTC sumando 5 horas)
             updateKnockoutMatch(1088L, "Canadá", "Marruecos", "2026-07-04 17:00:00");
