@@ -236,8 +236,8 @@ public class DatabaseSeederController {
             updateKnockoutMatch(1091L, "México", "Inglaterra", "2026-07-06 00:00:00");
             updateKnockoutMatch(1092L, "Portugal", "España", "2026-07-06 19:00:00");
             updateKnockoutMatch(1093L, "Estados Unidos", "Bélgica", "2026-07-07 00:00:00");
-            updateKnockoutMatch(1094L, "A definir", "A definir", "2026-07-07 16:00:00");
-            updateKnockoutMatch(1095L, "Suiza", "A definir", "2026-07-07 20:00:00");
+            updateKnockoutMatch(1094L, "Argentina", "Egipto", "2026-07-07 16:00:00");
+            updateKnockoutMatch(1095L, "Suiza", "Colombia", "2026-07-07 20:00:00");
 
             return "✅ Todos los partidos de fase de grupos y eliminatorias de 32 y octavos actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
