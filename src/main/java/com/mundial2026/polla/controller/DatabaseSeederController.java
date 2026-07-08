@@ -241,9 +241,9 @@ public class DatabaseSeederController {
 
             // Cuartos de final (convertidos de hora local Colombia a UTC sumando 5 horas)
             updateKnockoutMatch(1096L, "Francia", "Marruecos", "2026-07-09 20:00:00");
-            updateKnockoutMatch(1097L, "A definir", "A definir", "2026-07-10 19:00:00");
-            updateKnockoutMatch(1098L, "A definir", "A definir", "2026-07-11 21:00:00");
-            updateKnockoutMatch(1099L, "A definir", "A definir", "2026-07-12 01:00:00");
+            updateKnockoutMatch(1097L, "España", "Bélgica", "2026-07-10 19:00:00");
+            updateKnockoutMatch(1098L, "Noruega", "Inglaterra", "2026-07-11 21:00:00");
+            updateKnockoutMatch(1099L, "Argentina", "Suiza", "2026-07-12 01:00:00");
 
             return "✅ Todos los partidos de fase de grupos, dieciseisavos, octavos y cuartos actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
