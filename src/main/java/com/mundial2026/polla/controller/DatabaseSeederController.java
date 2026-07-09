@@ -16,13 +16,16 @@ public class DatabaseSeederController {
     private PollaService pollaService;
 
     @PostMapping("/seed")
+    @org.springframework.transaction.annotation.Transactional
     public String seedDatabase() {
         try {
             // Limpiar TODO para asegurar integridad de IDs hardcodeados
+            jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
             jdbcTemplate.execute("DELETE FROM predictions");
             jdbcTemplate.execute("DELETE FROM matches");
+            jdbcTemplate.execute("DELETE FROM users");
             jdbcTemplate.execute("DELETE FROM teams");
-            jdbcTemplate.execute("UPDATE users SET total_points = 0, champion_team_id = null");
+            jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
 
             // Re-insertar equipos con IDs fijos (610-657)
             if (true) { // Forzar inserción para asegurar IDs correctos
@@ -102,8 +105,8 @@ public class DatabaseSeederController {
             }
 
             // ===== GENERAR FASES FINALES (32 partidos adicionales) =====
-            String[] knockoutStages = { "Dieciseisavos", "Octavos", "Cuartos", "Semifinal", "Final" };
-            int[] matchesPerStage = { 16, 8, 4, 2, 1 };
+            String[] knockoutStages = { "Dieciseisavos", "Octavos", "Cuartos", "Semifinal", "Tercer Puesto", "Final" };
+            int[] matchesPerStage = { 16, 8, 4, 2, 1, 1 };
 
             for (int i = 0; i < knockoutStages.length; i++) {
                 String stage = knockoutStages[i];
@@ -245,7 +248,17 @@ public class DatabaseSeederController {
             updateKnockoutMatch(1098L, "Noruega", "Inglaterra", "2026-07-11 21:00:00");
             updateKnockoutMatch(1099L, "Argentina", "Suiza", "2026-07-12 01:00:00");
 
-            return "✅ Todos los partidos de fase de grupos, dieciseisavos, octavos y cuartos actualizados con los horarios reales de Colombia.";
+            // Semifinales
+            updateKnockoutMatch(1100L, null, null, "2026-07-14 20:00:00");
+            updateKnockoutMatch(1101L, null, null, "2026-07-15 20:00:00");
+
+            // Tercer Puesto (Sábado 18 de Julio a las 16:00 de Colombia -> 21:00 UTC)
+            updateKnockoutMatch(1102L, null, null, "2026-07-18 21:00:00");
+
+            // Final (Domingo 19 de Julio a las 16:00 de Colombia -> 21:00 UTC)
+            updateKnockoutMatch(1103L, null, null, "2026-07-19 21:00:00");
+
+            return "✅ Todos los partidos de fase de grupos y eliminatorias actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
             return "❌ Error al actualizar horarios reales: " + e.getMessage();
         }
