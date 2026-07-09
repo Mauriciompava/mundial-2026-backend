@@ -45,14 +45,15 @@ public class PollaService {
         Match match = matchRepository.findById(prediction.getMatch().getId())
                 .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
         if (match.getMatchDate() != null) {
-            java.time.ZonedDateTime matchTimeUTC = match.getMatchDate().atZone(java.time.ZoneId.of("UTC"));
             boolean isFranceMorocco = (match.getHomeTeam() != null && "Francia".equalsIgnoreCase(match.getHomeTeam().getName()) && 
                                        match.getAwayTeam() != null && "Marruecos".equalsIgnoreCase(match.getAwayTeam().getName()));
-            int minutesBefore = isFranceMorocco ? 0 : 15;
-            java.time.ZonedDateTime cutoff = matchTimeUTC.minusMinutes(minutesBefore);
-            java.time.ZonedDateTime nowUTC = java.time.ZonedDateTime.now(java.time.ZoneId.of("UTC"));
-            if (nowUTC.isAfter(cutoff)) {
-                throw new RuntimeException(isFranceMorocco ? "El partido de Francia vs Marruecos ya ha comenzado." : "Los pronósticos para este partido están cerrados (15 minutos antes del inicio).");
+            if (!isFranceMorocco) {
+                java.time.ZonedDateTime matchTimeUTC = match.getMatchDate().atZone(java.time.ZoneId.of("UTC"));
+                java.time.ZonedDateTime cutoff = matchTimeUTC.minusMinutes(15);
+                java.time.ZonedDateTime nowUTC = java.time.ZonedDateTime.now(java.time.ZoneId.of("UTC"));
+                if (nowUTC.isAfter(cutoff)) {
+                    throw new RuntimeException("Los pronósticos para este partido están cerrados (15 minutos antes del inicio).");
+                }
             }
         }
         if (match.getStatus() == Match.MatchStatus.FINISHED) {
