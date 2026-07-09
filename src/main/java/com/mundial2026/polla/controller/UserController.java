@@ -121,6 +121,13 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @PostMapping("/users/{userId}/set-points")
+    public User setUserPoints(@PathVariable Long userId, @RequestParam Integer points) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setTotalPoints(points);
+        return userRepository.save(user);
+    }
+
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id) {
         pollaService.deleteUser(id);
