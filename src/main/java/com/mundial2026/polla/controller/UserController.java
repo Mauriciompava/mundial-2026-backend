@@ -121,8 +121,8 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @PostMapping("/users/{userId}/set-points")
-    public User setUserPoints(@PathVariable Long userId, @RequestParam Integer points) {
+    @PostMapping("/users/{userId}/update-points")
+    public User updatePoints(@PathVariable Long userId, @RequestParam Integer points) {
         User user = userRepository.findById(userId).orElseThrow();
         user.setTotalPoints(points);
         return userRepository.save(user);
