@@ -124,12 +124,16 @@ public class UserController {
     @PostMapping("/users/{userId}/update-points")
     public User updatePoints(@PathVariable Long userId, @RequestParam Integer points) {
         User user = userRepository.findById(userId).orElseThrow();
-        user.setTotalPoints(points);
-        return userRepository.save(user);
+        user.setBasePoints(points);
+        userRepository.save(user);
+        // Recalcular totalPoints = basePoints + puntos de predicciones + campeón
+        pollaService.recalculateUserTotalPoints(user);
+        return userRepository.findById(userId).orElseThrow();
     }
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id) {
-        pollaService.deleteUser(id);
+        // PROTECCIÓN: No se permite eliminar usuarios para preservar datos históricos
+        throw new RuntimeException("⚠️ La eliminación de usuarios está deshabilitada para proteger los datos.");
     }
 }

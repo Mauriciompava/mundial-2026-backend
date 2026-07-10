@@ -75,6 +75,8 @@ public class PollaService {
     }
 
     public void recalculateUserTotalPoints(User user) {
+        int basePoints = user.getBasePoints() != null ? user.getBasePoints() : 0;
+
         int pointsFromPredictions = predictionRepository.findByUser(user).stream()
                 .mapToInt(p -> p.getPointsWon() != null ? p.getPointsWon() : 0)
                 .sum();
@@ -100,7 +102,7 @@ public class PollaService {
             }
         }
 
-        user.setTotalPoints(pointsFromPredictions + championPoints);
+        user.setTotalPoints(basePoints + pointsFromPredictions + championPoints);
         userRepository.save(user);
     }
 

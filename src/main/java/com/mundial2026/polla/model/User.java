@@ -26,6 +26,7 @@ public class User {
     private String password;
     
     private Integer totalPoints = 0;
+    private Integer basePoints = 0; // Puntos asignados manualmente por el administrador
     private Double entryFee = 20000.0;
     private boolean paid = false;
 
