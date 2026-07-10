@@ -140,7 +140,7 @@ public class DatabaseSeederController {
             updateKnockoutMatch(1099L, "Argentina", "Suiza", "2026-07-12 01:00:00");
 
             // Semifinales
-            updateKnockoutMatch(1100L, null, null, "2026-07-14 20:00:00");
+            updateKnockoutMatch(1100L, "Francia", "España", "2026-07-14 19:00:00");
             updateKnockoutMatch(1101L, null, null, "2026-07-15 20:00:00");
 
             // Tercer Puesto (Sábado 18 de Julio a las 16:00 de Colombia -> 21:00 UTC)
