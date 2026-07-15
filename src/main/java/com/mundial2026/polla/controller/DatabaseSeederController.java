@@ -143,11 +143,11 @@ public class DatabaseSeederController {
             updateKnockoutMatch(1100L, "Francia", "España", "2026-07-14 19:00:00");
             updateKnockoutMatch(1101L, "Inglaterra", "Argentina", "2026-07-15 19:00:00");
 
-            // Tercer Puesto (Sábado 18 de Julio a las 16:00 de Colombia -> 21:00 UTC)
-            updateKnockoutMatch(1102L, null, null, "2026-07-18 21:00:00");
+            // Tercer Puesto (Sábado 18 de Julio a las 14:00 de Colombia -> 19:00 UTC)
+            updateKnockoutMatch(1102L, "Francia", "Inglaterra", "2026-07-18 19:00:00");
 
-            // Final (Domingo 19 de Julio a las 16:00 de Colombia -> 21:00 UTC)
-            updateKnockoutMatch(1103L, null, null, "2026-07-19 21:00:00");
+            // Final (Domingo 19 de Julio a las 14:00 de Colombia -> 19:00 UTC)
+            updateKnockoutMatch(1103L, "España", "Argentina", "2026-07-19 19:00:00");
 
             return "✅ Todos los partidos de fase de grupos y eliminatorias actualizados con los horarios reales de Colombia.";
         } catch (Exception e) {
